@@ -7,3 +7,6 @@
 [submodule "python-streamlit-fastapi"]
 	path = python-streamlit-fastapi
 	url = git@github.com:Milsonyujiaoki/python-streamlit-fastapi.git
+[submodule "projs-note-positivo"]
+	path = projs-note-positivo
+	url = git@github.com:Milsonyujiaoki/projetos-note-positivo.git
