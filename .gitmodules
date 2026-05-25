@@ -1,3 +1,9 @@
 [submodule "mini-python"]
 	path = mini-python
 	url = https://github.com/Milsonyujiaoki/mini-python.git
+[submodule "Extratores-Python"]
+	path = Extratores-Python
+	url = git@github.com:Milsonyujiaoki/Extratores-Python.git
+[submodule "python-streamlit-fastapi"]
+	path = python-streamlit-fastapi
+	url = git@github.com:Milsonyujiaoki/python-streamlit-fastapi.git
