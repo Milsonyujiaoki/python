@@ -10,3 +10,6 @@
 [submodule "projs-note-positivo"]
 	path = projs-note-positivo
 	url = git@github.com:Milsonyujiaoki/projetos-note-positivo.git
+[submodule "python-servers"]
+	path = python-servers
+	url = git@github.com:Milsonyujiaoki/python-servers.git
