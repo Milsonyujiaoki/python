@@ -1,0 +1,37 @@
+
+**8.1. Erros de Sintaxe (Syntax Errors)**
+Também conhecidos como erros de análise (parsing errors), são os mais comuns para quem está aprendendo a linguagem. Eles ocorrem antes mesmo de o código começar a rodar, quando o Python lê o arquivo e encontra uma estrutura que não faz sentido na linguagem (por exemplo, esquecer os dois-pontos `:` antes de definir uma função). Quando isso acontece, o Python imprime o nome do arquivo, o número da linha e desenha pequenas setas apontando para o local onde o erro foi detectado.
+
+**8.2. Exceções (Exceptions)**
+Mesmo que o seu código esteja escrito de forma sintaticamente correta, ele pode falhar quando o Python tentar executá-lo. Esses erros ocorrem durante a execução e são chamados de exceções. Se o seu programa não estiver preparado para lidar com elas, a execução será interrompida e uma mensagem de erro será exibida com um rastreamento de pilha (stack traceback) para mostrar o contexto de onde a falha ocorreu. A mensagem sempre indica o tipo específico da exceção (como `ZeroDivisionError`, `NameError` ou `TypeError`) e detalhes sobre o que a causou.
+
+**8.3. Tratando Exceções (Handling Exceptions)**
+Para evitar que o programa quebre, você pode "capturar" e tratar esses erros usando a estrutura `try` e `except`.
+*   **O bloco `try`:** O código que pode gerar um erro vai aqui. Se nada der errado, o bloco `except` é ignorado.
+*   **O bloco `except`:** Se um erro ocorrer no `try`, o restante do código dele é interrompido. O Python então verifica se o tipo do erro gerado corresponde ao especificado no bloco `except` e, se sim, executa o código de tratamento.
+*   **Múltiplas exceções:** Você pode ter vários blocos `except` para tratar problemas diferentes, ou colocar vários tipos em um único `except` usando uma tupla (ex: `except (RuntimeError, TypeError, NameError):`). É recomendável ser o mais específico possível sobre quais erros capturar, deixando que falhas inesperadas propaguem.
+*   **A cláusula `else`:** Opcional, ela deve vir após os `except` e só será executada se o código dentro do `try` rodar até o fim sem gerar nenhuma exceção. É útil para evitar capturar acidentalmente erros que não estavam previstos.
+
+**8.4. Levantando Exceções (Raising Exceptions)**
+O comando `raise` permite que você force a ocorrência de uma exceção específica no seu programa. Você deve passar a classe da exceção (como `ValueError`) ou uma instância dela. Além disso, se você usar apenas a palavra `raise` (sem argumentos) dentro de um bloco `except`, o Python vai re-levantar a mesma exceção que acabou de ser capturada.
+
+**8.5. Encadeamento de Exceções (Exception Chaining)**
+Às vezes, durante o tratamento de uma exceção no bloco `except`, outro erro pode ocorrer ou você pode querer transformar uma exceção em outra. 
+*   Você pode usar a sintaxe `raise NovaExcecao from ExcecaoOriginal` para indicar explicitamente que o novo erro é uma consequência direta do anterior.
+*   Para desativar esse encadeamento automático no log de erros, você pode usar `raise ... from None`.
+
+**8.6. Exceções Definidas pelo Usuário (User-defined Exceptions)**
+Você pode criar suas próprias exceções personalizadas criando novas classes. A regra é que elas devem herdar, direta ou indiretamente, da classe base `Exception`. A convenção do Python é que o nome dessas classes sempre termine com a palavra "Error".
+
+**8.7. Definindo Ações de Limpeza (Defining Clean-up Actions) - *Atenção à versão 3.13.13***
+A cláusula `finally` é usada para definir ações que devem ser executadas **em todas as circunstâncias**, ou seja, independentemente de ter ocorrido um erro ou não no bloco `try`. É amplamente utilizada para liberar recursos externos, como fechar conexões de rede ou arquivos. Se houver uma exceção não tratada, ela será re-levantada logo após o `finally` terminar de rodar.
+*   **Nota sobre a versão 3.13.13:** A documentação alerta que colocar comandos como `break`, `continue` ou `return` dentro do `finally` é uma prática fortemente desencorajada, pois pode gerar confusão (por exemplo, um `return` no `finally` substitui o valor retornado do `try` e impede que exceções sejam re-levantadas). A partir do Python 3.14, o compilador passará a emitir um aviso formal (`SyntaxWarning`) caso você faça isso. Como você está na **versão 3.13.13**, o comportamento "confuso" existirá se você usar esses comandos ali, mas **o Python não emitirá o `SyntaxWarning`** para avisá-lo.
+
+**8.8. Ações de Limpeza Predefinidas (Predefined Clean-up Actions)**
+Certos objetos (como arquivos) possuem lógicas de limpeza próprias. O jeito correto e moderno de lidar com eles em Python é usando a declaração `with`. Ao abrir um arquivo usando `with open(...) as f:`, o Python garante que o arquivo será fechado corretamente e imediatamente assim que o bloco de código terminar, mesmo que problemas (exceções) tenham ocorrido lá dentro.
+
+**8.9. Levantando e Tratando Múltiplas Exceções Não Relacionadas**
+Em sistemas modernos que executam várias tarefas em paralelo (concorrência), pode ser que múltiplos erros independentes ocorram ao mesmo tempo. O Python resolve isso com o `ExceptionGroup`, que agrupa várias instâncias de exceções para serem levantadas juntas. Para tratar exceções dentro desse grupo de forma seletiva, usa-se a sintaxe especial `except*`, que consegue extrair apenas os erros de um tipo específico do grupo e deixar os outros seguirem seu curso.
+
+**8.10. Enriquecendo Exceções com Notas (Enriching Exceptions with Notes)**
+Você pode adicionar informações extras ou de contexto a uma exceção mesmo depois de ela ter sido criada e capturada. Usando o método `.add_note("Sua mensagem aqui")`, essa string é anexada a uma lista de notas da exceção. Quando o programa falhar e exibir o rastreamento (traceback), todas essas notas serão impressas junto com a mensagem de erro original, na ordem em que foram adicionadas.
